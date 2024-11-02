@@ -43,7 +43,7 @@ UPDATE_PACKAGE "easytier" "lazyoop/networking-artifact" "main" "pkg"
 UPDATE_PACKAGE "vnt" "lazyoop/networking-artifact" "main" "pkg"
 UPDATE_PACKAGE "luci-app-partexp" "sirpdboy/luci-app-partexp" "main"
 UPDATE_PACKAGE "istore" "linkease/istore" "main"
-UPDATE_PACKAGE "luci-app-store" "linkease/istore" "main"
+UPDATE_PACKAGE "luci-app-store" "souwei168/luci-app-store" "main"
 UPDATE_PACKAGE "istore-ui" "linkease/istore-ui" "main"
 
 if [[ $WRT_REPO != *"immortalwrt"* ]]; then
