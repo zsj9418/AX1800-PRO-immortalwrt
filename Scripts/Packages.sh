@@ -44,7 +44,7 @@ UPDATE_PACKAGE "vnt" "lazyoop/networking-artifact" "main" "pkg"
 UPDATE_PACKAGE "luci-app-partexp" "sirpdboy/luci-app-partexp" "main"
 UPDATE_PACKAGE "istore" "linkease/istore" "main"
 UPDATE_PACKAGE "istore-ui" "linkease/istore-ui" "main"
-UPDATE_PACKAGE "luci-app-store" "master-yun-yun/luci-app-store-test" "main"
+UPDATE_PACKAGE "luci-app-store" "kenzok8/openwrt-packages" "main" "pkg"
 
 if [[ $WRT_REPO != *"immortalwrt"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
