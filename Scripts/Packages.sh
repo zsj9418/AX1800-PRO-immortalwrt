@@ -44,10 +44,11 @@ UPDATE_PACKAGE "vnt" "lazyoop/networking-artifact" "main" "pkg"
 UPDATE_PACKAGE "luci-app-partexp" "sirpdboy/luci-app-partexp" "main"
 UPDATE_PACKAGE "istore" "linkease/istore" "main" "pkg"
 UPDATE_PACKAGE "istore-ui" "linkease/istore-ui" "main" "pkg"
-UPDATE_PACKAGE "luci-app-store" "linkease/istore" "main" "pkg"
 UPDATE_PACKAGE "luci-lib-taskd" "linkease/istore" "main" "pkg"
 UPDATE_PACKAGE "taskd" "linkease/istore" "main" "pkg"
 UPDATE_PACKAGE "luci-lib-xterm" "linkease/istore" "main" "pkg"
+UPDATE_PACKAGE "luci-app-store" "linkease/istore" "main" "pkg"
+UPDATE_PACKAGE "luci-app-store" "shidahuilang/openwrt-package" "Immortalwrt" "pkg"
 
 if [[ $WRT_REPO != *"immortalwrt"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
