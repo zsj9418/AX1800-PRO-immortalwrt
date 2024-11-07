@@ -27,9 +27,9 @@ CONFIG_PACKAGE_luci-app-partexp=y
 #集成istoreos软件商店
 #CONFIG_PACKAGE_istore=y
 #CONFIG_PACKAGE_istore-ui=y
-#CONFIG_PACKAGE_luci-lib-taskd=y
-#CONFIG_PACKAGE_taskd=y
-#CONFIG_PACKAGE_luci-lib-xterm=y
+CONFIG_PACKAGE_luci-lib-taskd=y
+CONFIG_PACKAGE_taskd=y
+CONFIG_PACKAGE_luci-lib-xterm=y
 CONFIG_PACKAGE_luci-app-store=y
 #luci-app-ksmbd内核级文件共享
 CONFIG_PACKAGE_luci-app-ksmbd=y
