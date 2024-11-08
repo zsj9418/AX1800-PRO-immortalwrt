@@ -45,7 +45,7 @@ UPDATE_PACKAGE "luci-app-partexp" "sirpdboy/luci-app-partexp" "main"
 UPDATE_PACKAGE "luci-lib-taskd" "linkease/istore" "main" "pkg"
 UPDATE_PACKAGE "taskd" "linkease/istore" "main" "pkg"
 UPDATE_PACKAGE "luci-lib-xterm" "linkease/istore" "main" "pkg"
-UPDATE_PACKAGE "luci-app-store" "kiddin9/kwrt-packages" "main" "pkg"
+UPDATE_PACKAGE "luci-app-store" "kenzok8/small-package" "main" "pkg"
 
 if [[ $WRT_REPO != *"immortalwrt"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
