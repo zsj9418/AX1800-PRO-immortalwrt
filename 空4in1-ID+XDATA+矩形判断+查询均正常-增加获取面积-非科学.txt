@@ -1,0 +1,248 @@
+(defun c:TJB (/ cmd)
+  ;; 显示提示信息
+  (princ "\n请选择要执行的操作：")
+  (princ "\nA-为图案填充添加ID标识号及XDATA扩展数据")
+  (princ "\nS-查询图案填充ID标识号及XDATA扩展数据")
+  (princ "\n输入A或S后按Enter键：")
+
+  ;; 获取用户输入
+  (setq cmd (getstring "\n请输入命令 (A/S): "))
+
+  ;; 根据用户输入执行相应的命令
+  (cond
+    ((= (strcase cmd) "A") (c:Addinfo))  ;; 执行Addinfo命令
+    ((= (strcase cmd) "S") (c:ShowHatchInfo))  ;; 执行ShowHatchInfo命令
+    (T (princ "\n无效的命令，请输入A或S。"))  ;; 无效输入提示
+  )
+  (princ)
+)
+
+;; 原3in1-ID+XDATA+矩形判断均正常.lsp中的Addinfo命令
+(defun c:Addinfo (/ ss i ent entData hatchName id newXData appName hatchTable maxID allEnts usedIDs
+                                  blockRef blockDef hatchEnt hatchObj minPt maxPt width height perimeter is-rect area)
+  ;; 定义一个唯一的应用程序名称
+  (setq appName "MyUniqueAppName")
+
+  ;; 注册应用程序名称
+  (if (not (tblsearch "APPID" appName))
+    (regapp appName)
+  )
+
+  ;; 创建一个关联列表来存储每个图案填充名称的最大ID号和已使用的ID号列表
+  (setq hatchTable '())
+
+  ;; 请求用户选择图案填充实体
+  (setq ss (ssget '((0 . "HATCH,INSERT"))))  ;; 选择图案填充或图块
+  (if ss
+    (progn
+      ;; 获取当前图形文件中所有的图案填充实体
+      (setq allEnts (ssget "_X" '((0 . "HATCH"))))
+
+      ;; 初始化计数器
+      (setq i 0)
+      ;; 遍历所有选中的图案填充实体
+      (repeat (sslength ss)
+        (setq ent (ssname ss i)) ;; 获取实体名
+        (setq entData (entget ent))
+        ;; 如果选择的是图块，遍历图块定义中的实体
+        (if (eq (cdr (assoc 0 entData)) "INSERT")
+          (progn
+            (setq blockRef (vlax-ename->vla-object ent))
+            (setq blockDef (vla-item (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))) (vla-get-Name blockRef)))
+            ;; 遍历图块定义中的实体
+            (vlax-for obj blockDef
+              (if (eq (vla-get-ObjectName obj) "AcDbHatch")  ;; 找到图案填充对象
+                (setq hatchEnt (vlax-vla-object->ename obj)))))
+          (setq hatchEnt ent))  ;; 直接选择图案填充对象
+
+        ;; 检查是否找到图案填充对象
+        (if (and hatchEnt (eq (cdr (assoc 0 (entget hatchEnt))) "HATCH"))
+          (progn
+            ;; 获取图案填充名称
+            (setq hatchName (cdr (assoc 2 (entget hatchEnt))))
+
+            ;; 检查关联列表中是否已有该图案填充名称的最大ID号和已使用的ID号列表
+            (setq maxID (cdr (assoc hatchName hatchTable)))
+            (setq usedIDs (cdr (assoc hatchName (cdr (member (cons hatchName maxID) hatchTable)))))
+            (if (not maxID)
+              (progn
+                ;; 如果没有，初始化最大ID号为 0，并初始化已使用的ID号列表为空
+                (setq maxID 0)
+                (setq usedIDs '())
+                (setq hatchTable (cons (cons hatchName maxID) (cons (cons hatchName usedIDs) hatchTable)))
+              )
+            )
+
+            ;; 遍历当前图形文件中所有图案填充实体，查找当前图案填充名称的最大ID号和已使用的ID号列表
+            (setq j 0)
+            (repeat (sslength allEnts)
+              (setq ent2 (ssname allEnts j)) ;; 获取实体名
+              (setq hatchName2 (cdr (assoc 2 (entget ent2)))) ;; 获取图案填充名称
+              (if (equal hatchName hatchName2)
+                (progn
+                  ;; 获取扩展数据
+                  (setq xdata (assoc -3 (entget ent2 (list appName))))
+                  (if xdata
+                    (progn
+                      ;; 提取ID值
+                      (setq id (cdr (assoc 1000 (cdr (car (cdr xdata))))))
+                      ;; 提取ID号中的数字部分
+                      (setq idNum (atoi (substr id 4)))
+                      ;; 更新最大ID号
+                      (if (> idNum maxID)
+                        (setq maxID idNum)
+                      )
+                      ;; 将已使用的ID号添加到列表中
+                      (setq usedIDs (cons idNum usedIDs))
+                    )
+                  )
+                )
+              )
+              ;; 计数器加一
+              (setq j (1+ j))
+            )
+
+            ;; 检查当前实体是否已有ID号
+            (setq xdata (assoc -3 (entget hatchEnt (list appName))))
+            (if (not xdata)
+              (progn
+                ;; 如果当前实体没有ID号，则分配新的ID号
+                ;; 查找最小的未使用的ID号
+                (setq nextID 1)
+                (while (member nextID usedIDs)
+                  (setq nextID (1+ nextID))
+                )
+
+                ;; 生成ID号，格式为 "No.X"，其中 X 是连续的数字
+                (setq id (strcat "No." (itoa nextID)))
+
+                ;; 准备新的扩展数据
+                (setq newXData (list 
+                                 (list -3 
+                                       (list appName
+                                             (cons 1000 id)     ;; 值
+                                       )
+                                 )
+                               ))
+
+                ;; 修改实体并添加扩展数据
+                (entmod (append (entget hatchEnt) newXData))
+
+                ;; 更新关联列表中的最大ID号和已使用的ID号列表
+                (setq usedIDs (cons nextID usedIDs))
+                (setq hatchTable (subst (cons hatchName maxID) (assoc hatchName hatchTable) hatchTable))
+                (setq hatchTable (subst (cons hatchName usedIDs) (assoc hatchName (cdr (member (cons hatchName maxID) hatchTable))) hatchTable))
+              )
+            )
+
+            ;; 尝试获取图案填充的边界框
+            (if (and (setq hatchObj (vlax-ename->vla-object hatchEnt))
+                     (vlax-method-applicable-p hatchObj 'GetBoundingBox))  ;; 检查 GetBoundingBox 方法是否可用
+              (progn
+                (setq minPt (vlax-make-safearray vlax-vbDouble '(0 . 2)))
+                (setq maxPt (vlax-make-safearray vlax-vbDouble '(0 . 2)))
+                (vla-GetBoundingBox hatchObj 'minPt 'maxPt)
+                (setq minPt (vlax-safearray->list minPt))
+                (setq maxPt (vlax-safearray->list maxPt))
+
+                ;; 计算宽度和高度
+                (setq width (abs (- (car maxPt) (car minPt))))
+                (setq height (abs (- (cadr maxPt) (cadr minPt))))
+
+                ;; 计算周长
+                (setq perimeter (* 2 (+ width height)))
+
+                ;; 获取图案填充的面积
+                (setq area (vla-get-Area hatchObj))
+
+                ;; 判断是否为矩形
+                (setq is-rect (equal area (* width height) 1e-6))  ;; 判断面积是否等于宽度 * 高度
+
+                ;; 输出结果（面积显示为小数点后两位）
+                (princ (strcat "\n对象 " (itoa (1+ i)) " 边界是" (if is-rect "矩形" "非矩形") "。"
+                               "\n长度 (沿X轴方向): " (rtos width 2 2)  ;; 宽度显示为小数点后两位
+                               "\n高度 (沿Y轴方向): " (rtos height 2 2) ;; 高度显示为小数点后两位
+                               "\n周长: " (rtos perimeter 2 2)          ;; 周长显示为小数点后两位
+                               "\n面积: " (rtos area 2 2)))             ;; 面积显示为小数点后两位
+
+                ;; 将数据记录到扩展数据表
+                (AddXData hatchEnt width height perimeter is-rect area)
+              )
+              (progn
+                ;; 如果 GetBoundingBox 方法不可用，提示错误
+                (princ (strcat "\n对象 " (itoa (1+ i)) " 不支持 GetBoundingBox 方法，无法获取边界信息。"))
+              )
+            )
+          )
+          (princ (strcat "\n对象 " (itoa (1+ i)) " 不是图案填充对象。")))
+        ;; 计数器加一
+        (setq i (1+ i))
+      )
+      ;; 提示操作完成
+      (princ "\nIDs and boundary data have been added to the selected hatch patterns.")
+    )
+    ;; 如果没有选中任何图案填充实体
+    (princ "\nNo hatch pattern selected.")
+  )
+  ;; 清除命令行输出
+  (princ)
+)
+
+;; 添加扩展数据表的函数
+(defun AddXData (ent width height perimeter is-rect area / xdataApp xdata formattedArea)
+  ;; 注册应用程序名（用于扩展数据表）
+  (setq xdataApp "HATCH_DATA")
+  (regapp xdataApp)
+  ;; 将面积格式化为小数点后两位的字符串
+  (setq formattedArea (rtos area 2 2))
+  ;; 构建扩展数据表
+  (setq xdata (list (list -3 (list xdataApp
+                                   (cons 1000 (if is-rect "RECTANGLE" "NON-RECTANGLE"))  ;; 是否为矩形
+                                   (cons 1040 (if width width 0.0))     ;; 长度
+                                   (cons 1040 (if height height 0.0))   ;; 高度
+                                   (cons 1040 (if perimeter perimeter 0.0))  ;; 周长
+                                   (cons 1000 formattedArea)))))   ;; 面积（格式化为字符串）
+  ;; 将扩展数据表附加到实体
+  (entmod (append (entget ent) xdata))
+  (entupd ent)
+)
+
+;; 原查ID+XDATA-正常-即时显示-02.LSP中的ShowHatchInfo命令
+(defun c:ShowHatchInfo (/ ent xdata appName id hatchXData)
+  ;; 定义应用程序名称（与添加ID时的名称一致）
+  (setq appName "MyUniqueAppName")
+
+  ;; 提示用户开始选择图案填充
+  (princ "\n选择图案填充对象（按Esc退出）：")
+
+  ;; 循环选择图案填充，直到用户取消选择
+  (while (setq ent (car (entsel)))
+    ;; 获取扩展数据（ID部分）
+    (setq xdata (assoc -3 (entget ent (list appName))))
+
+    ;; 检查是否有扩展数据（ID部分）
+    (if xdata
+      (progn
+        ;; 提取ID值
+        (setq id (cdr (assoc 1000 (cdr (car (cdr xdata))))))
+        ;; 显示图案填充名称和ID
+        (princ (strcat "\nHatch Name: " (cdr (assoc 2 (entget ent))) " | ID: " id))
+      )
+      (princ "\nNo ID found for this hatch.")
+    )
+
+    ;; 获取图案填充的扩展数据（XDATA部分）
+    (setq hatchXData (cdr (assoc -3 (entget ent '("HATCH_DATA")))))
+    ;; 输出扩展数据
+    (princ (strcat "\n扩展数据: " (vl-princ-to-string hatchXData)))
+
+    ;; 提示用户继续选择
+    (princ "\n选择下一个图案填充对象（按Esc退出）：")
+  )
+
+  ;; 清除命令行输出
+  (princ)
+)
+
+;; 加载函数后，可以通过在AutoCAD命令行输入TJB来运行脚本
+(princ "\n程序加载完成。请在命令行输入 'TJB' 来执行程序。")
