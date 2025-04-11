@@ -151,3 +151,13 @@ UPDATE_PACKAGE "luci-app-design-config" "kenzok78/luci-app-design-config" "main"
 UPDATE_PACKAGE "luci-app-socat" "WROIATE/luci-app-socat" "main"
 
 #------------------以上自定义源--------------------#
+
+
+#-------------------2025.04.12-测试-----------------#
+UPDATE_PACKAGE "luci-app-clouddrive2" "shidahuilang/openwrt-package" "Immortalwrt" "pkg"
+UPDATE_PACKAGE "luci-app-istoreenhance" "shidahuilang/openwrt-package" "Immortalwrt" "pkg"
+UPDATE_PACKAGE "luci-app-linkease" "shidahuilang/openwrt-package" "Immortalwrt" "pkg"
+UPDATE_PACKAGE "luci-app-quickstart" "shidahuilang/openwrt-package" "Immortalwrt" "pkg"
+UPDATE_PACKAGE "luci-app-store" "shidahuilang/openwrt-package" "Immortalwrt" "pkg"
+UPDATE_PACKAGE "luci-app-unishare" "shidahuilang/openwrt-package" "Immortalwrt" "pkg"
+#-------------------2025.04.12-测试-----------------#
