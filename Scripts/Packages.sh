@@ -147,7 +147,7 @@ UPDATE_PACKAGE "luci-app-design-config" "kenzok78/luci-app-design-config" "main"
 #luci-app-quickstart
 #UPDATE_PACKAGE "luci-app-quickstart" "animegasan/luci-app-quickstart" "main"
 
-#WROIATE/luci-app-socat
+#端口转发luci-app-socat
 UPDATE_PACKAGE "luci-app-socat" "WROIATE/luci-app-socat" "main"
 
 #------------------以上自定义源--------------------#
