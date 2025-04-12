@@ -71,7 +71,7 @@ UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 
 UPDATE_PACKAGE "alist" "sbwml/luci-app-alist" "main"
 UPDATE_PACKAGE "easytier" "EasyTier/luci-app-easytier" "main"
-UPDATE_PACKAGE "gecoosac" "lwb1978/openwrt-gecoosac" "main"
+#UPDATE_PACKAGE "gecoosac" "lwb1978/openwrt-gecoosac" "main"
 UPDATE_PACKAGE "mosdns" "sbwml/luci-app-mosdns" "v5" "" "v2dat"
 UPDATE_PACKAGE "qmodem" "FUjr/modem_feeds" "main"
 UPDATE_PACKAGE "viking" "VIKINGYFY/packages" "main" "" "luci-app-timewol luci-app-wolplus"
@@ -128,19 +128,19 @@ UPDATE_VERSION "tailscale"
 
 #------------------以下自定义源--------------------#
 
-#全能推送PushBot
+#全能推送PushBot----OK
 UPDATE_PACKAGE "luci-app-pushbot" "zzsj0928/luci-app-pushbot" "master"
 
-#关机poweroff
+#关机poweroff----OK
 UPDATE_PACKAGE "luci-app-poweroff" "DongyangHu/luci-app-poweroff" "main"
 
-#主题界面edge
+#主题界面edge----OK
 UPDATE_PACKAGE "luci-theme-edge" "ricemices/luci-theme-edge" "master"
 
-#分区扩容
+#分区扩容----OK
 UPDATE_PACKAGE "luci-app-partexp" "sirpdboy/luci-app-partexp" "main"
 
-#阿里云盘aliyundrive-webdav
+#阿里云盘aliyundrive-webdav----OK
 UPDATE_PACKAGE "luci-app-aliyundrive-webdav" "messense/aliyundrive-webdav" "main"
 #UPDATE_PACKAGE "aliyundrive-webdav" "master-yun-yun/aliyundrive-webdav" "main" "pkg"
 #UPDATE_PACKAGE "luci-app-aliyundrive-webdav" "master-yun-yun/aliyundrive-webdav" "main"
@@ -149,18 +149,18 @@ UPDATE_PACKAGE "luci-app-aliyundrive-webdav" "messense/aliyundrive-webdav" "main
 #UPDATE_PACKAGE "luci-app-openvpn-server" "hyperlook/luci-app-openvpn-server" "main"
 #UPDATE_PACKAGE "luci-app-openvpn-server" "ixiaan/luci-app-openvpn-server" "main"
 
-#luci-app-navidrome音乐服务器
+#luci-app-navidrome音乐服务器----OK
 UPDATE_PACKAGE "luci-app-navidrome" "tty228/luci-app-navidrome" "main"
 
-#luci-theme-design主题界面
+#luci-theme-design主题界面----OK
 UPDATE_PACKAGE "luci-theme-design" "emxiong/luci-theme-design" "master"
-#luci-app-design-config主题配置
+#luci-app-design-config主题配置----OK
 UPDATE_PACKAGE "luci-app-design-config" "kenzok78/luci-app-design-config" "main"
 
 #luci-app-quickstart
 #UPDATE_PACKAGE "luci-app-quickstart" "animegasan/luci-app-quickstart" "main"
 
-#端口转发luci-app-socat
+#端口转发luci-app-socat----OK
 UPDATE_PACKAGE "luci-app-socat" "WROIATE/luci-app-socat" "main"
 
 #------------------以上自定义源--------------------#
