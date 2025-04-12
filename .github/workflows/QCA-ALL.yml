@@ -26,13 +26,11 @@ permissions: write-all
 # CI任务
 jobs:
   config:
-    name: ${{matrix.CONFIG}}
+    name: ${{matrix.CONFIG}} / ${{matrix.SOURCE}}
     strategy:
       fail-fast: false
-      max-parallel: 2
       matrix:
-        # CONFIG: [IPQ60XX-WIFI-YES, IPQ60XX-WIFI-NO, IPQ807X-WIFI-YES, IPQ807X-WIFI-NO]
-        CONFIG: [IPQ60XX-WIFI-YES]
+        CONFIG: [IPQ60XX-WIFI-YES]  # 只使用一个配置
         SOURCE: [VIKINGYFY/immortalwrt, LiBwrt/openwrt-6.x]
         BRANCH: [main, kernel-6.12]
 
