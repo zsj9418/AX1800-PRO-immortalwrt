@@ -32,8 +32,10 @@ jobs:
       max-parallel: 2
       matrix:
         CONFIG: [IPQ60XX-WIFI-YES]
-        SOURCE: [VIKINGYFY/immortalwrt, LiBwrt/openwrt-6.x]
-        BRANCH: [main, kernel-6.12]
+        SOURCE: [VIKINGYFY/immortalwrt]
+        BRANCH: [main]
+        SOURCE: [LiBwrt/openwrt-6.x]
+        BRANCH: [kernel-6.12]
 
     # 调用公用编译核心 WRT-CORE.yml
     uses: ./.github/workflows/WRT-CORE.yml
