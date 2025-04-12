@@ -1,20 +1,23 @@
 #科学插件调整
-CONFIG_PACKAGE_luci-app-homeproxy=y
+CONFIG_PACKAGE_sing-box=y
 CONFIG_PACKAGE_luci-app-nikki=y
 #增加插件
 #CONFIG_PACKAGE_luci-app-upnp=y
 CONFIG_PACKAGE_luci-app-samba4=y
 CONFIG_PACKAGE_luci-app-wolplus=y
+CONFIG_PACKAGE_luci-app-homebox=y
+CONFIG_PACKAGE_luci-app-cpufreq=y
+CONFIG_PACKAGE_luci-app-cloudflared=y
+CONFIG_PACKAGE_luci-app-lucky=y
+CONFIG_PACKAGE_luci-app-mosdns=y
 #集客AC插件
 #CONFIG_PACKAGE_luci-app-gecoosac=y
 CONFIG_PACKAGE_luci-app-tailscale=y
 CONFIG_PACKAGE_luci-app-autoreboot=y
 #删除插件
 CONFIG_PACKAGE_luci-app-wol=n
-#CONFIG_PACKAGE_luci-app-ddns=n
 CONFIG_PACKAGE_luci-app-vlmcsd=n
 CONFIG_PACKAGE_luci-app-xlnetacc=n
-#CONFIG_PACKAGE_luci-app-zerotier=n
 CONFIG_PACKAGE_luci-app-wireguard=n
 CONFIG_PACKAGE_luci-app-ipsec-vpnd=n
 CONFIG_PACKAGE_luci-app-adbyby-plus=n
@@ -63,6 +66,11 @@ CONFIG_PACKAGE_kmod-nft-nat=y
 CONFIG_PACKAGE_kmod-nft-offload=y
 CONFIG_PACKAGE_kmod-nft-socket=y
 CONFIG_PACKAGE_kmod-nft-tproxy=y
+# Kernel modules
+CONFIG_PACKAGE_kmod-tun=y
+CONFIG_PACKAGE_kmod-inet-diag=y
+CONFIG_PACKAGE_kmod-netlink-diag=y
+CONFIG_PACKAGE_iptables-nft=y
 #组件调整
 CONFIG_PACKAGE_autocore=y
 CONFIG_PACKAGE_automount=y
@@ -99,9 +107,7 @@ CONFIG_PACKAGE_fuse3-utils=y
 CONFIG_PACKAGE_libfuse1=y
 CONFIG_PACKAGE_ibfuse3-3=y
 #动态域名解析
-CONFIG_PACKAGE_luci-app-ddns=y
-#微力同步
-CONFIG_PACKAGE_luci-app-verysync=y
+CONFIG_PACKAGE_luci-app-ddns-go=y
 #补全linux系统管理指令
 CONFIG_PACKAGE_sudo=y
 #DDNS依赖
@@ -113,11 +119,8 @@ CONFIG_PACKAGE_drill=y
 #CONFIG_PACKAGE_libcap-ng=y
 #CONFIG_PACKAGE_liblz4-1=y
 #CONFIG_PACKAGE_liblzo2=y
-CONFIG_PACKAGE_luci-app-openvpn-server=y
 #FTP服务器
 CONFIG_PACKAGE_luci-app-vsftpd=y
-#微信通知推送
-CONFIG_PACKAGE_luci-app-wechatpush=y
 #IPTV组播转换
 CONFIG_PACKAGE_luci-app-msd_lite=y
 #IPTV组播代理
@@ -132,24 +135,16 @@ CONFIG_PACKAGE_luci-app-pushbot=y
 CONFIG_PACKAGE_luci-app-poweroff=y
 #分区扩容
 CONFIG_PACKAGE_luci-app-partexp=y
-#主题界面edge
-CONFIG_PACKAGE_luci-theme-edge=y
 #文件浏览器filebrowser-go
 CONFIG_PACKAGE_luci-app-filebrowser-go=y
-#多端网盘挂载alist
-CONFIG_PACKAGE_luci-app-alist=y
 #php8
 CONFIG_PACKAGE_php8=y
 CONFIG_PACKAGE_php8-cgi=y
 CONFIG_PACKAGE_php8-mod-curl=y
 #Wi-Fi定时开关
 CONFIG_PACKAGE_luci-app-wifischedule=y
-#阿里云盘webdav
-CONFIG_PACKAGE_luci-app-aliyundrive-webdav=y
 #docker
 CONFIG_PACKAGE_luci-app-dockerman=y
-#KMS服务器
-#CONFIG_PACKAGE_luci-app-vlmcsd=y
 #ZeroTier内网穿透
 CONFIG_PACKAGE_luci-app-zerotier=y
 #访问时间控制
@@ -157,7 +152,7 @@ CONFIG_PACKAGE_luci-app-zerotier=y
 #通用即插即用UPnP（端口自动转发）
 CONFIG_PACKAGE_luci-app-upnp=y
 #提供网络设备的自动重启和断网检测功能
-CONFIG_PACKAGE_luci-app-watchcat=y
+CONFIG_PACKAGE_luci-app-watchcat-plus=y
 #内核级文件共享
 CONFIG_PACKAGE_luci-app-ksmbd=y
 #argon主题配置
@@ -196,9 +191,6 @@ CONFIG_PACKAGE_luci-app-diskman=y
 CONFIG_PACKAGE_luci-app-navidrome=y
 #快速设置
 #CONFIG_PACKAGE_luci-app-quickstart=y
-#主题界面luci-theme-design
-CONFIG_PACKAGE_luci-theme-design=y
-CONFIG_PACKAGE_luci-app-design-config=y
 #-------------------2025.04.04-测试------------------------------------------------#
 
 #-------------------2025.04.12-测试-----------------#
@@ -206,20 +198,108 @@ CONFIG_PACKAGE_luci-app-design-config=y
 #clouddrive2云盘挂载
 #CONFIG_PACKAGE_luci-app-clouddrive2=y
 #istore增强
-CONFIG_PACKAGE_istoreenhance=y
-CONFIG_PACKAGE_luci-app-istoreenhance=y
+#CONFIG_PACKAGE_istoreenhance=y
+#CONFIG_PACKAGE_luci-app-istoreenhance=y
 #易有云文件管理器
-CONFIG_PACKAGE_linkmount=y
-CONFIG_PACKAGE_linkease=y
-CONFIG_PACKAGE_luci-app-linkease=y
+#CONFIG_PACKAGE_linkmount=y
+#CONFIG_PACKAGE_linkease=y
+#CONFIG_PACKAGE_luci-app-linkease=y
 #快速设置
 CONFIG_PACKAGE_quickstart=y
 CONFIG_PACKAGE_luci-app-quickstart=y
 #istore商店
-CONFIG_PACKAGE_luci-app-store=y
+#CONFIG_PACKAGE_luci-app-store=y
 #通用共享
 #CONFIG_PACKAGE_webdav2=y
 #CONFIG_PACKAGE_unishare=y
 #CONFIG_PACKAGE_luci-app-unishare=y
 
 #-------------------2025.04.12-测试-----------------#
+# ---- Docker 核心组件 ----
+CONFIG_PACKAGE_dockerd=y
+CONFIG_PACKAGE_docker-compose=y
+CONFIG_PACKAGE_luci-app-dockerman=y
+CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y
+
+# ---- 依赖工具 ----
+CONFIG_PACKAGE_cgroupfs-mount=y
+CONFIG_PACKAGE_libdevmapper=y
+CONFIG_PACKAGE_fdisk=y
+CONFIG_PACKAGE_e2fsprogs=y
+CONFIG_PACKAGE_blkid=y
+CONFIG_PACKAGE_kmod-ipt-fullconenat=y
+# 通用依赖
+CONFIG_CGROUPS=y
+CONFIG_CGROUP_DEVICE=y
+CONFIG_CGROUP_CPUACCT=y
+CONFIG_CGROUP_BPF=y
+CONFIG_CGROUP_FREEZER=y
+CONFIG_NAMESPACES=y
+CONFIG_UTS_NS=y
+CONFIG_IPC_NS=y
+CONFIG_PID_NS=y
+CONFIG_NET_NS=y
+CONFIG_USER_NS=y
+
+# 存储驱动
+CONFIG_OVERLAY_FS=y
+CONFIG_EXT4_FS=y
+CONFIG_EXT4_FS_POSIX_ACL=y
+CONFIG_BTRFS_FS=y
+
+# 网络支持
+CONFIG_VETH=y
+CONFIG_BRIDGE=y
+CONFIG_NETFILTER=y
+CONFIG_NETFILTER_ADVANCED=y
+CONFIG_IP_NF_IPTABLES=y
+CONFIG_IP_NF_NAT=y
+CONFIG_NF_CONNTRACK=y
+CONFIG_NF_CONNTRACK_SECMARK=y
+
+# ARM64 特定
+CONFIG_ARM64_CRYPTO=y
+CONFIG_CRYPTO_SHA1_ARM64_CE=y
+CONFIG_CRYPTO_AES_ARM64=y
+
+# ---- 文件系统扩展（可选）----
+CONFIG_PACKAGE_block-mount=y
+CONFIG_PACKAGE_f2fs-tools=y
+
+# daed内核
+CONFIG_PACKAGE_luci-app-daed=y
+CONFIG_PACKAGE_luci-app-dae=y
+CONFIG_BPF=y
+CONFIG_BPF_SYSCALL=y
+CONFIG_BPF_JIT=y
+CONFIG_CGROUPS=y
+CONFIG_KPROBES=y
+CONFIG_NET_INGRESS=y
+CONFIG_NET_EGRESS=y
+CONFIG_NET_SCH_INGRESS=m
+CONFIG_NET_CLS_BPF=m
+CONFIG_NET_CLS_ACT=y
+CONFIG_BPF_STREAM_PARSER=y
+CONFIG_DEBUG_INFO=y
+# CONFIG_DEBUG_INFO_REDUCED is not set
+CONFIG_DEBUG_INFO_BTF=y
+CONFIG_KPROBE_EVENTS=y
+CONFIG_BPF_EVENTS=y
+
+# === dae 核心组件 ===
+CONFIG_PACKAGE_dae=y
+CONFIG_PACKAGE_golang=y
+CONFIG_PACKAGE_golang-1.21=y
+CONFIG_PACKAGE_libcap=y
+CONFIG_PACKAGE_libopenssl=y
+
+# === 网络增强 ===
+CONFIG_PACKAGE_ip-full=y
+CONFIG_PACKAGE_iptables-mod-conntrack-extra=y
+CONFIG_KERNEL_TCP_CONG_BBR=y
+
+# === 扩展功能 ===
+CONFIG_PACKAGE_dae-geoip=y
+CONFIG_PACKAGE_dae-rule=y
+CONFIG_PACKAGE_luci-app-dae=y
+CONFIG_PACKAGE_luci-i18n-dae-zh-cn=y
