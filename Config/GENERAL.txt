@@ -206,14 +206,19 @@ CONFIG_PACKAGE_luci-app-design-config=y
 #clouddrive2云盘挂载
 CONFIG_PACKAGE_luci-app-clouddrive2=y
 #istore增强
+CONFIG_PACKAGE_istoreenhance=y
 CONFIG_PACKAGE_luci-app-istoreenhance=y
 #易有云文件管理器
+CONFIG_PACKAGE_linkmount=y
+CONFIG_PACKAGE_linkease=y
 CONFIG_PACKAGE_luci-app-linkease=y
 #快速设置
+CONFIG_PACKAGE_quickstart=y
 CONFIG_PACKAGE_luci-app-quickstart=y
 #istore商店
 CONFIG_PACKAGE_luci-app-store=y
 #通用共享
+CONFIG_PACKAGE_unishare=y
 CONFIG_PACKAGE_luci-app-unishare=y
 
 #-------------------2025.04.12-测试-----------------#
