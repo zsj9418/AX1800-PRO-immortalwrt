@@ -29,7 +29,7 @@ jobs:
     name: ${{matrix.CONFIG}} / ${{matrix.SOURCE}}
     strategy:
       fail-fast: false
-      max-parallel: 2
+     # max-parallel: 1
       matrix:
         CONFIG: [IPQ60XX-WIFI-YES]
         SOURCE: [VIKINGYFY/immortalwrt]
