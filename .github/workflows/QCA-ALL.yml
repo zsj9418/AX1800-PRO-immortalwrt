@@ -29,9 +29,9 @@ jobs:
     name: ${{matrix.CONFIG}} / ${{matrix.SOURCE}}
     strategy:
       fail-fast: false
-      max-parallel: 1
+      max-parallel: 2
       matrix:
-        CONFIG: [IPQ60XX-WIFI-YES]  # 只使用一个配置
+        CONFIG: [IPQ60XX-WIFI-YES]
         SOURCE: [VIKINGYFY/immortalwrt, LiBwrt/openwrt-6.x]
         BRANCH: [main, kernel-6.12]
 
